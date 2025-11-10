@@ -68,9 +68,13 @@ app.get('/api/health', async (req, res) => {
 });
 
 // Iniciar servidor
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando na porta ${PORT}`);
+// Cloud Run e outras plataformas podem definir PORT via variável de ambiente
+const serverPort = process.env.PORT || PORT;
+
+app.listen(serverPort, '0.0.0.0', () => {
+  console.log(`🚀 Servidor rodando na porta ${serverPort}`);
   console.log(`✅ Conectado ao Supabase`);
+  console.log(`🌐 Ambiente: ${process.env.NODE_ENV || 'development'}`);
 });
 
 export default app;

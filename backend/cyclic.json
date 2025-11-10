@@ -1,0 +1,15 @@
+{
+  "runtime": {
+    "name": "nodejs18.x"
+  },
+  "build": {
+    "commands": {
+      "install": "npm install",
+      "build": "npm run build"
+    }
+  },
+  "start": {
+    "command": "npm start"
+  }
+}
+
