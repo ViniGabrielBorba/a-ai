@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for a-ai on 2025-11-10T00:45:46Z
+# fly.toml app configuration file generated for a-ai-nhp-das on 2025-11-10T01:52:33Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'a-ai'
-primary_region = 'iad'
+app = 'a-ai-nhp-das'
+primary_region = 'ams'
 
 [build]
 
