@@ -70,7 +70,7 @@ app.get('/api/health', async (req, res) => {
 // Iniciar servidor
 // Fly.io, Cloud Run e outras plataformas definem PORT via variável de ambiente
 // É importante escutar em 0.0.0.0 para aceitar conexões de qualquer interface de rede
-const serverPort = process.env.PORT || PORT;
+const serverPort = parseInt(process.env.PORT || String(PORT), 10);
 const host = '0.0.0.0'; // Importante para Docker e plataformas cloud
 
 const server = app.listen(serverPort, host, () => {

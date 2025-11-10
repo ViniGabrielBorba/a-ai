@@ -4,12 +4,15 @@
   },
   "build": {
     "commands": {
-      "install": "npm install",
+      "install": "npm ci",
       "build": "npm run build"
     }
   },
   "start": {
     "command": "npm start"
+  },
+  "env": {
+    "NODE_ENV": "production"
   }
 }
 
