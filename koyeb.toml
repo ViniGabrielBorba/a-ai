@@ -1,0 +1,9 @@
+# Koyeb Configuration
+[build]
+  root_dir = "backend"
+  build_command = "npm install && npm run build"
+  run_command = "npm start"
+
+[deploy]
+  ports = [3001]
+
