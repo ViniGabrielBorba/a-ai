@@ -54,17 +54,15 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/delivery-riders', deliveryRiderRoutes);
 
-// Health check
-app.get('/api/health', async (req, res) => {
-  try {
-    // Testar conexão com Supabase
-    const { error } = await supabase.from('products').select('id').limit(1);
-    if (error) throw error;
-    
-    res.json({ status: 'ok', message: 'API está funcionando!', database: 'Supabase conectado' });
-  } catch (error) {
-    res.status(500).json({ status: 'error', message: 'Erro ao conectar com Supabase', error });
-  }
+// Health check - simples e rápido para o Fly.io
+app.get('/api/health', (req, res) => {
+  // Health check simples - não depende de serviços externos
+  // Isso garante que o servidor está respondendo mesmo se o Supabase estiver temporariamente indisponível
+  res.status(200).json({ 
+    status: 'ok', 
+    message: 'API está funcionando!',
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Iniciar servidor

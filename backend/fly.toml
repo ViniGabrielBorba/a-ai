@@ -29,12 +29,13 @@ primary_region = "gru"
     soft_limit = 20
 
   [[services.http_checks]]
-    interval = "10s"
-    timeout = "5s"
-    grace_period = "5s"
+    interval = "15s"
+    timeout = "10s"
+    grace_period = "30s"
     method = "GET"
     path = "/api/health"
     protocol = "http"
+    tls_skip_verify = false
 
 [processes]
   app = "npm start"
