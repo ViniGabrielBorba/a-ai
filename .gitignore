@@ -47,3 +47,8 @@ build/
 # *.md
 # !README.md
 
+# Arquivos de exemplo (DEVEM ser commitados)
+!.env.example
+!backend/.env.example
+!frontend/.env.example
+
