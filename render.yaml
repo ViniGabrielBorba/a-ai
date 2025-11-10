@@ -1,16 +1,35 @@
-# Render Configuration for Backend
 services:
   - type: web
-    name: acai-mania-backend
+    name: a-ai-backend
     env: node
-    region: oregon
+    region: sao-paulo
     plan: free
-    buildCommand: cd backend && npm install && npm run build
-    startCommand: cd backend && npm start
-    healthCheckPath: /api/health
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    rootDir: backend
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 3001
-
+        value: 10000
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: PAGSEGURO_TOKEN
+        sync: false
+      - key: PAGSEGURO_EMAIL
+        sync: false
+      - key: PAGSEGURO_ENV
+        value: sandbox
+      - key: ADMIN_EMAIL
+        value: admin@acaidopara.com
+      - key: ADMIN_PASSWORD
+        sync: false
+    healthCheckPath: /api/health
