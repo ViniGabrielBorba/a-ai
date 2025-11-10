@@ -1,5 +1,5 @@
 # Fly.io Configuration for Backend
-app = "acai-mania-backend"
+app = "a-ai-nhp-das"
 primary_region = "gru"
 
 [build]
