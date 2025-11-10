@@ -16,15 +16,35 @@ const PORT = process.env.PORT || 3001;
 // Railway e Render configuram a porta via variável de ambiente
 // Se não estiver definida, usa a porta padrão 3001
 
-// Middleware
-app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL || 'http://localhost:3000',
-    'https://*.netlify.app',
-    'https://*.vercel.app'
-  ],
+// Middleware CORS
+// Permitir múltiplas origens para desenvolvimento e produção
+const allowedOrigins = [
+  process.env.FRONTEND_URL || 'http://localhost:3000',
+  'http://localhost:3000',
+  // Adicione aqui os domínios do Netlify/Vercel quando fizer deploy
+  // Exemplo: 'https://seu-site.netlify.app'
+];
+
+// Função para verificar origem permitida
+const corsOptions = {
+  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+    // Permitir requisições sem origem (ex: mobile apps, Postman)
+    if (!origin) return callback(null, true);
+    
+    // Permitir se estiver na lista ou for localhost
+    if (allowedOrigins.includes(origin) || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      callback(null, true);
+    } else if (origin.includes('.netlify.app') || origin.includes('.vercel.app')) {
+      // Permitir qualquer subdomínio do Netlify ou Vercel
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
-}));
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes
