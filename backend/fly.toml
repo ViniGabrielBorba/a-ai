@@ -1,4 +1,4 @@
-# Fly.io Configuration
+# Fly.io Configuration for Backend
 app = "acai-mania-backend"
 primary_region = "gru"
 
@@ -30,11 +30,11 @@ primary_region = "gru"
 
   [[services.http_checks]]
     interval = "10s"
-    timeout = "2s"
+    timeout = "5s"
     grace_period = "5s"
     method = "GET"
     path = "/api/health"
+    protocol = "http"
 
 [processes]
   app = "npm start"
-

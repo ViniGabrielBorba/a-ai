@@ -68,13 +68,38 @@ app.get('/api/health', async (req, res) => {
 });
 
 // Iniciar servidor
-// Cloud Run e outras plataformas podem definir PORT via variável de ambiente
+// Fly.io, Cloud Run e outras plataformas definem PORT via variável de ambiente
+// É importante escutar em 0.0.0.0 para aceitar conexões de qualquer interface de rede
 const serverPort = process.env.PORT || PORT;
+const host = '0.0.0.0'; // Importante para Docker e plataformas cloud
 
-app.listen(serverPort, '0.0.0.0', () => {
+const server = app.listen(serverPort, host, () => {
   console.log(`🚀 Servidor rodando na porta ${serverPort}`);
+  console.log(`🌐 Escutando em ${host}:${serverPort}`);
   console.log(`✅ Conectado ao Supabase`);
-  console.log(`🌐 Ambiente: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🌍 Ambiente: ${process.env.NODE_ENV || 'development'}`);
+});
+
+// Tratamento de erros do servidor
+server.on('error', (error: any) => {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  const bind = typeof serverPort === 'string' ? 'Pipe ' + serverPort : 'Port ' + serverPort;
+
+  switch (error.code) {
+    case 'EACCES':
+      console.error(`${bind} requires elevated privileges`);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(`${bind} is already in use`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
 });
 
 export default app;
