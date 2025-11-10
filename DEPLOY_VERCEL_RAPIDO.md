@@ -18,6 +18,9 @@ https://vercel.com/
 ### 4. Configurar:
 - **Root Directory:** `frontend` ⚠️ **IMPORTANTE!**
 - **Framework:** Next.js (automático)
+- **Build Command:** Deixe automático (toggle OFF) ✅
+- **Output Directory:** Deixe automático (toggle OFF) ✅
+- **Install Command:** Deixe automático (toggle OFF) ✅
 - Clique em "Deploy"
 
 ### 5. Adicionar Variáveis:
