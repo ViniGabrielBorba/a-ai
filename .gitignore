@@ -39,6 +39,9 @@ build/
 *.temp
 *.bak
 
+# GitHub Actions (manter workflows)
+!.github/workflows/
+
 # Database
 *.db
 *.sqlite
