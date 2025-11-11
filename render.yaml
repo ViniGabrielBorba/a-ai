@@ -4,9 +4,9 @@ services:
     env: node
     region: sao-paulo
     plan: free
-    buildCommand: npm install && npm run build
-    startCommand: node dist/server.js
-    rootDir: backend
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && node dist/server.js
+    rootDir: .
     envVars:
       - key: NODE_ENV
         value: production
