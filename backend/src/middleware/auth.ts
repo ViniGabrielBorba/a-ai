@@ -13,7 +13,7 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
     return res.status(401).json({ message: 'Token de acesso não fornecido' });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET || '', (err, decoded: any) => {
+  jwt.verify(token, process.env.JWT_SECRET || '', (err: Error | null, decoded: any) => {
     if (err) {
       return res.status(403).json({ message: 'Token inválido' });
     }

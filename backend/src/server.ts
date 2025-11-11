@@ -55,7 +55,7 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/delivery-riders', deliveryRiderRoutes);
 
 // Health check - simples e rápido para o Fly.io
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (req: express.Request, res: express.Response) => {
   // Health check simples - não depende de serviços externos
   // Isso garante que o servidor está respondendo mesmo se o Supabase estiver temporariamente indisponível
   res.status(200).json({ 
