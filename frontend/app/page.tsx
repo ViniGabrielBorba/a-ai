@@ -110,26 +110,23 @@ export default function Home() {
             <div className="group text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-gray-200">
               <div className="text-5xl sm:text-6xl mb-6">🌿</div>
               <h3 className="text-2xl sm:text-3xl font-extrabold mb-4 text-green-700">100% Natural</h3>
-                <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
-                  Açaí puro e natural, sem conservantes ou aditivos artificiais. Sabor autêntico em cada tigela!
-                </p>
-              </div>
+              <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
+                Açaí puro e natural, sem conservantes ou aditivos artificiais. Sabor autêntico em cada tigela!
+              </p>
             </div>
             <div className="group text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-gray-200">
               <div className="text-5xl sm:text-6xl mb-6">🚀</div>
               <h3 className="text-2xl sm:text-3xl font-extrabold mb-4 text-yellow-600">Entrega Rápida</h3>
-                <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
-                  Delivery rápido e eficiente, garantindo que seu açaí chegue geladinho e na hora certa!
-                </p>
-              </div>
+              <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
+                Delivery rápido e eficiente, garantindo que seu açaí chegue geladinho e na hora certa!
+              </p>
             </div>
             <div className="group text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-gray-200 sm:col-span-2 lg:col-span-1">
               <div className="text-5xl sm:text-6xl mb-6">💜</div>
               <h3 className="text-2xl sm:text-3xl font-extrabold mb-4 text-pink-600">Sabor Único</h3>
-                <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
-                  Sabor irresistível que vai te deixar com vontade de mais! Cada tigela é uma experiência única.
-                </p>
-              </div>
+              <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
+                Sabor irresistível que vai te deixar com vontade de mais! Cada tigela é uma experiência única.
+              </p>
             </div>
           </div>
         </div>
@@ -152,10 +149,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
                 M
               </div>
-                <div>
-                  <p className="font-extrabold text-purple-700">Maria Silva</p>
-                  <p className="text-sm text-gray-500">Cliente VIP</p>
-                </div>
+              <div>
+                <p className="font-extrabold text-purple-700">Maria Silva</p>
+                <p className="text-sm text-gray-500">Cliente VIP</p>
               </div>
             </div>
           </div>
@@ -168,10 +164,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
                 J
               </div>
-                <div>
-                  <p className="font-extrabold text-yellow-700">João Santos</p>
-                  <p className="text-sm text-gray-500">Cliente Fiel</p>
-                </div>
+              <div>
+                <p className="font-extrabold text-yellow-700">João Santos</p>
+                <p className="text-sm text-gray-500">Cliente Fiel</p>
               </div>
             </div>
           </div>
@@ -184,10 +179,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
                 A
               </div>
-                <div>
-                  <p className="font-extrabold text-pink-700">Ana Costa</p>
-                  <p className="text-sm text-gray-500">Cliente Desde o Início</p>
-                </div>
+              <div>
+                <p className="font-extrabold text-pink-700">Ana Costa</p>
+                <p className="text-sm text-gray-500">Cliente Desde o Início</p>
               </div>
             </div>
           </div>

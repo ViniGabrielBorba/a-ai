@@ -36,7 +36,9 @@ export default function CheckoutPage() {
   })
 
   if (cart.length === 0 && !orderCreated) {
-    router.push('/carrinho')
+    if (typeof window !== 'undefined') {
+      router.push('/carrinho')
+    }
     return null
   }
 
@@ -209,13 +211,15 @@ export default function CheckoutPage() {
             <div className="mb-6">
               <button
                 onClick={() => {
-                  // Tentar abrir o app do banco com o QR Code
-                  const pixUrl = `pix://${qrCode}`
-                  window.location.href = pixUrl
-                  setTimeout(() => {
-                    // Se não abrir, mostrar instruções
-                    showInfo('Se o app não abrir, copie o código Pix acima e cole no app do seu banco')
-                  }, 1000)
+                  if (typeof window !== 'undefined') {
+                    // Tentar abrir o app do banco com o QR Code
+                    const pixUrl = `pix://${qrCode}`
+                    window.location.href = pixUrl
+                    setTimeout(() => {
+                      // Se não abrir, mostrar instruções
+                      showInfo('Se o app não abrir, copie o código Pix acima e cole no app do seu banco')
+                    }, 1000)
+                  }
                 }}
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 mb-2"
               >
