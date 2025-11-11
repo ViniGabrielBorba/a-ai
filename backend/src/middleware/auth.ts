@@ -1,8 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
+// Interface que estende Request do Express com propriedade adicional
 export interface AuthRequest extends Request {
   adminId?: string;
+  body: any;
+  params: any;
+  headers: any;
 }
 
 export const authenticateToken = (req: AuthRequest, res: Response, next: NextFunction) => {
