@@ -5,7 +5,7 @@ services:
     region: sao-paulo
     plan: free
     buildCommand: npm install && npm run build
-    startCommand: npm start
+    startCommand: node dist/server.js
     rootDir: backend
     envVars:
       - key: NODE_ENV
