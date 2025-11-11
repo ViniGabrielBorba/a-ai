@@ -34,10 +34,16 @@ Você precisa adicionar **2 variáveis** no Vercel:
 
    **Se o backend JÁ está deployado:**
    
+   - **Render:** `https://a-ai-backend.onrender.com/api` (ou a URL do seu serviço no Render)
    - **Fly.io:** `https://a-ai-nhp-das.fly.dev/api`
    - **Cyclic.sh:** `https://acai-mania-backend.cyclic.app/api`
    - **Koyeb:** `https://seu-app.koyeb.app/api`
    - **Outro:** Use a URL do seu backend + `/api`
+   
+   **⚠️ IMPORTANTE:** 
+   - A URL do Render geralmente é: `https://NOME-DO-SERVICO.onrender.com`
+   - Você encontra a URL no painel do Render, na página do seu serviço
+   - **SEMPRE adicione `/api` no final da URL!**
 
 4. Clique em **"Salvar"** ou **"Save"**
 
