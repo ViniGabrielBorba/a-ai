@@ -23,7 +23,9 @@ export default function CheckoutPage() {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    address: '',
+    street: '',
+    neighborhood: '',
+    zipCode: '',
     deliveryType: 'delivery' as 'delivery' | 'pickup',
     observations: '',
     cardNumber: '',
@@ -44,11 +46,15 @@ export default function CheckoutPage() {
 
     try {
       // Criar pedido
+      const fullAddress = formData.deliveryType === 'delivery' 
+        ? `${formData.street}, ${formData.neighborhood}, CEP: ${formData.zipCode}`.trim()
+        : undefined
+
       const orderData = {
         customer: {
           name: formData.name,
           phone: formData.phone,
-          address: formData.deliveryType === 'delivery' ? formData.address : undefined,
+          address: fullAddress,
           deliveryType: formData.deliveryType
         },
         items: cart.map(item => ({
@@ -181,14 +187,40 @@ export default function CheckoutPage() {
             <p className="text-lg text-gray-600 mb-8">
               Escaneie o QR Code abaixo para pagar com Pix:
             </p>
-            <div className="bg-white p-6 rounded-lg inline-block mb-6">
-              <QRCodeSVG value={qrCode} size={256} />
+            <div className="bg-white p-6 rounded-lg inline-block mb-6 border-2 border-gray-200">
+              <QRCodeSVG value={qrCode} size={200} />
             </div>
             <p className="text-gray-600 mb-4">
               Ou copie o código Pix:
             </p>
-            <div className="bg-gray-100 p-4 rounded-lg mb-6">
-              <code className="text-sm break-all">{qrCode}</code>
+            <div className="bg-gray-100 p-4 rounded-lg mb-6 relative">
+              <code className="text-sm break-all block pr-12">{qrCode}</code>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(qrCode)
+                  showSuccess('Código Pix copiado!')
+                }}
+                className="absolute top-2 right-2 bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-xs font-semibold transition"
+                title="Copiar código"
+              >
+                Copiar
+              </button>
+            </div>
+            <div className="mb-6">
+              <button
+                onClick={() => {
+                  // Tentar abrir o app do banco com o QR Code
+                  const pixUrl = `pix://${qrCode}`
+                  window.location.href = pixUrl
+                  setTimeout(() => {
+                    // Se não abrir, mostrar instruções
+                    showInfo('Se o app não abrir, copie o código Pix acima e cole no app do seu banco')
+                  }, 1000)
+                }}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 mb-2"
+              >
+                Abrir no App do Banco
+              </button>
             </div>
             <div className="flex gap-4 justify-center">
               <button
@@ -251,16 +283,16 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen py-12 sm:py-16 px-4 bg-gradient-to-b from-white via-purple-50/30 to-white">
+    <div className="min-h-screen py-12 sm:py-16 px-4 bg-gray-50">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-10 sm:mb-12">
           <div className="inline-block mb-4">
             <span className="text-5xl sm:text-6xl">🛒</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-gray-800">
             Finalizar Pedido
           </h1>
-          <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
+          <div className="w-32 h-1 bg-purple-600 mx-auto rounded-full"></div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -270,24 +302,31 @@ export default function CheckoutPage() {
             <div className="space-y-4">
               <input
                 type="text"
-                placeholder="Nome completo"
+                placeholder="Nome completo *"
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
               <input
                 type="tel"
-                placeholder="Telefone"
+                placeholder="Telefone (com DDD) *"
                 required
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, '')
+                  const formatted = value.length <= 11 
+                    ? value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3').replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
+                    : formData.phone
+                  setFormData({ ...formData, phone: formatted || value })
+                }}
+                maxLength={15}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
               <div>
-                <label className="block mb-2 font-semibold">Tipo de entrega:</label>
+                <label className="block mb-2 font-semibold text-gray-700">Tipo de entrega:</label>
                 <div className="flex gap-4">
-                  <label className="flex items-center">
+                  <label className="flex items-center cursor-pointer">
                     <input
                       type="radio"
                       value="delivery"
@@ -295,9 +334,9 @@ export default function CheckoutPage() {
                       onChange={(e) => setFormData({ ...formData, deliveryType: e.target.value as 'delivery' | 'pickup' })}
                       className="mr-2"
                     />
-                    Delivery
+                    <span>Delivery</span>
                   </label>
-                  <label className="flex items-center">
+                  <label className="flex items-center cursor-pointer">
                     <input
                       type="radio"
                       value="pickup"
@@ -305,19 +344,46 @@ export default function CheckoutPage() {
                       onChange={(e) => setFormData({ ...formData, deliveryType: e.target.value as 'delivery' | 'pickup' })}
                       className="mr-2"
                     />
-                    Retirada
+                    <span>Retirada</span>
                   </label>
                 </div>
               </div>
               {formData.deliveryType === 'delivery' && (
-                <textarea
-                  placeholder="Endereço completo"
-                  required
-                  value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
-                  rows={3}
-                />
+                <div className="space-y-3 border-t pt-4">
+                  <input
+                    type="text"
+                    placeholder="Rua/Avenida *"
+                    required
+                    value={formData.street}
+                    onChange={(e) => setFormData({ ...formData, street: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+                  />
+                  <div className="grid grid-cols-2 gap-3">
+                    <input
+                      type="text"
+                      placeholder="Bairro *"
+                      required
+                      value={formData.neighborhood}
+                      onChange={(e) => setFormData({ ...formData, neighborhood: e.target.value })}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+                    />
+                    <input
+                      type="text"
+                      placeholder="CEP *"
+                      required
+                      value={formData.zipCode}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, '')
+                        const formatted = value.length <= 8 
+                          ? value.replace(/(\d{5})(\d{3})/, '$1-$2')
+                          : formData.zipCode
+                        setFormData({ ...formData, zipCode: formatted || value })
+                      }}
+                      maxLength={9}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-600"
+                    />
+                  </div>
+                </div>
               )}
               <textarea
                 placeholder="Observações (opcional)"

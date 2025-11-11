@@ -92,16 +92,16 @@ export default function CardapioPage() {
   }
 
   return (
-    <div className="min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-purple-50/30 to-white">
+    <div className="min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="container mx-auto">
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-block mb-6">
-            <span className="text-6xl sm:text-7xl animate-bounce">🍇</span>
+            <span className="text-6xl sm:text-7xl">🍇</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-purple-700">
             Cardápio Açaí Mania
           </h1>
-          <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
+          <div className="w-32 h-1 bg-purple-600 mx-auto rounded-full"></div>
           <p className="text-lg sm:text-xl text-gray-600 mt-6 max-w-2xl mx-auto">
             Escolha seu açaí favorito e monte sua tigela perfeita!
           </p>
@@ -113,9 +113,9 @@ export default function CardapioPage() {
             <button
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
-              className={`px-6 py-3 rounded-full font-extrabold text-sm sm:text-base transition-all duration-300 transform hover:scale-110 ${
+              className={`px-6 py-3 rounded-full font-extrabold text-sm sm:text-base transition-all duration-300 ${
                 selectedCategory === category.id
-                  ? 'bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white shadow-2xl shadow-purple-500/50 scale-110'
+                  ? 'bg-purple-600 text-white shadow-lg'
                   : 'bg-white text-gray-700 hover:bg-purple-50 border-2 border-purple-200 hover:border-purple-400 shadow-md hover:shadow-lg'
               }`}
             >
