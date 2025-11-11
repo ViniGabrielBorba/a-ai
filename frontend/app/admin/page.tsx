@@ -170,7 +170,7 @@ function AdminDashboard({ token, onLogout }: { token: string; onLogout: () => vo
     } else {
       fetchOrders()
     }
-  }, [activeTab])
+  }, [activeTab, token])
 
   const fetchProducts = async () => {
     try {
@@ -198,14 +198,47 @@ function AdminDashboard({ token, onLogout }: { token: string; onLogout: () => vo
 
   const fetchRiders = async () => {
     try {
+      if (!token) {
+        alert('Token de autenticação não encontrado. Faça login novamente.')
+        return
+      }
+
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
+      console.log('Buscando entregadores de:', `${apiUrl}/delivery-riders`)
+      
       const response = await axios.get(`${apiUrl}/delivery-riders`, {
         headers: { Authorization: `Bearer ${token}` }
       })
-      setRiders(response.data)
-    } catch (error) {
-      console.error('Erro ao buscar entregadores:', error)
-      alert('Erro ao buscar entregadores. Verifique se está autenticado e se o servidor está rodando.')
+      
+      console.log('Entregadores recebidos:', response.data)
+      setRiders(response.data || [])
+    } catch (error: any) {
+      console.error('Erro completo ao buscar entregadores:', error)
+      
+      if (error.response) {
+        // Erro com resposta do servidor
+        const status = error.response.status
+        const message = error.response.data?.message || error.response.statusText
+        
+        if (status === 401 || status === 403) {
+          alert('Sessão expirada. Faça login novamente.')
+          // Redirecionar para login ou limpar token
+          localStorage.removeItem('adminToken')
+          window.location.reload()
+        } else {
+          alert(`Erro ao buscar entregadores: ${message} (Status: ${status})`)
+        }
+      } else if (error.request) {
+        // Requisição feita mas sem resposta
+        alert('Erro de conexão. Verifique se o servidor backend está rodando e se a URL está correta.')
+        console.error('Detalhes da requisição:', error.request)
+      } else {
+        // Erro ao configurar a requisição
+        alert(`Erro ao buscar entregadores: ${error.message}`)
+      }
+      
+      // Definir array vazio para evitar erros na renderização
+      setRiders([])
     }
   }
 
