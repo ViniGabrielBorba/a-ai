@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { supabase } from '../lib/supabase';
+import { supabaseAdmin } from '../lib/supabase';
 import { authenticateToken, AuthRequest } from '../middleware/auth';
 
 const router = express.Router();
@@ -7,24 +7,39 @@ const router = express.Router();
 // GET /api/delivery-riders - Listar todos os entregadores
 router.get('/', authenticateToken, async (req: AuthRequest, res: Response) => {
   try {
-    const { data: riders, error } = await supabase
+    console.log('Buscando entregadores...');
+    
+    const { data: riders, error } = await supabaseAdmin
       .from('delivery_riders')
       .select('*')
       .order('created_at', { ascending: false });
 
-    if (error) throw error;
+    if (error) {
+      console.error('Erro do Supabase ao buscar entregadores:', error);
+      console.error('Detalhes do erro:', JSON.stringify(error, null, 2));
+      throw error;
+    }
 
-    res.json(riders);
+    console.log(`Encontrados ${riders?.length || 0} entregadores`);
+    res.json(riders || []);
   } catch (error: any) {
-    console.error('Erro ao buscar entregadores:', error);
-    res.status(500).json({ message: 'Erro ao buscar entregadores', error: error.message });
+    console.error('Erro completo ao buscar entregadores:', error);
+    console.error('Stack trace:', error.stack);
+    
+    // Retornar mais detalhes do erro para debug
+    res.status(500).json({ 
+      message: 'Erro ao buscar entregadores', 
+      error: error.message,
+      details: error.details || error.hint || 'Verifique os logs do servidor',
+      code: error.code
+    });
   }
 });
 
 // GET /api/delivery-riders/active - Listar entregadores ativos
 router.get('/active', authenticateToken, async (req: AuthRequest, res: Response) => {
   try {
-    const { data: riders, error } = await supabase
+    const { data: riders, error } = await supabaseAdmin
       .from('delivery_riders')
       .select('*')
       .eq('active', true)
@@ -53,7 +68,7 @@ router.post('/', authenticateToken, async (req: AuthRequest, res: Response) => {
       active: req.body.active !== undefined ? req.body.active : true
     };
 
-    const { data: rider, error } = await supabase
+    const { data: rider, error } = await supabaseAdmin
       .from('delivery_riders')
       .insert(riderData)
       .select()
@@ -81,7 +96,7 @@ router.put('/:id', authenticateToken, async (req: AuthRequest, res: Response) =>
     if (req.body.bike_model) updateData.bike_model = req.body.bike_model;
     if (req.body.active !== undefined) updateData.active = req.body.active;
 
-    const { data: rider, error } = await supabase
+    const { data: rider, error } = await supabaseAdmin
       .from('delivery_riders')
       .update(updateData)
       .eq('id', req.params.id)
@@ -104,7 +119,7 @@ router.put('/:id', authenticateToken, async (req: AuthRequest, res: Response) =>
 // DELETE /api/delivery-riders/:id - Deletar entregador
 router.delete('/:id', authenticateToken, async (req: AuthRequest, res: Response) => {
   try {
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('delivery_riders')
       .delete()
       .eq('id', req.params.id);
