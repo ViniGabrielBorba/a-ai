@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "tsc && node -e \"const fs = require('fs'); if (!fs.existsSync('dist/server.js')) { console.error('ERRO: dist/server.js não foi gerado!'); process.exit(1); } else { console.log('✓ Build concluído: dist/server.js existe'); }\"",
     "start": "node dist/server.js",
     "seed:admin": "tsx src/scripts/seedAdmin.ts"
   },
