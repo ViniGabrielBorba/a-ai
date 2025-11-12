@@ -93,30 +93,27 @@ export default function CardapioPage() {
 
   return (
     <div className="min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
-      <div className="container mx-auto">
-        <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-block mb-6">
-            <span className="text-6xl sm:text-7xl">🍇</span>
-          </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-purple-700">
+      <div className="container mx-auto max-w-7xl">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-gray-900 tracking-tight">
             Cardápio Açaí Mania
           </h1>
-          <div className="w-32 h-1 bg-purple-600 mx-auto rounded-full"></div>
-          <p className="text-lg sm:text-xl text-gray-600 mt-6 max-w-2xl mx-auto">
-            Escolha seu açaí favorito e monte sua tigela perfeita!
+          <div className="w-20 h-0.5 bg-purple-600 mx-auto mb-6"></div>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
+            Escolha seu açaí favorito e monte sua tigela perfeita
           </p>
         </div>
 
         {/* Category Filters */}
-        <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 sm:mb-12 px-2">
+        <div className="flex flex-wrap justify-center gap-3 mb-12 px-2">
           {categories.map((category) => (
             <button
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
-              className={`px-6 py-3 rounded-full font-extrabold text-sm sm:text-base transition-all duration-300 ${
+              className={`px-6 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 ${
                 selectedCategory === category.id
-                  ? 'bg-purple-600 text-white shadow-lg'
-                  : 'bg-white text-gray-700 hover:bg-purple-50 border-2 border-purple-200 hover:border-purple-400 shadow-md hover:shadow-lg'
+                  ? 'bg-purple-700 text-white shadow-md'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
               }`}
             >
               {category.name}
@@ -126,21 +123,23 @@ export default function CardapioPage() {
 
         {/* Products Grid */}
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-12 sm:py-16">
-            <div className="text-6xl mb-4">🍇</div>
-            <p className="text-lg sm:text-xl md:text-2xl text-gray-500 mb-4">
+          <div className="text-center py-16">
+            <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+            </svg>
+            <p className="text-lg text-gray-600 mb-2 font-light">
               {products.length === 0 
                 ? 'Nenhum produto cadastrado ainda.' 
                 : 'Nenhum produto encontrado nesta categoria.'}
             </p>
             {products.length === 0 && (
-              <p className="text-gray-400 text-sm sm:text-base">
+              <p className="text-gray-400 text-sm">
                 Acesse o painel admin para adicionar produtos.
               </p>
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
             {filteredProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
