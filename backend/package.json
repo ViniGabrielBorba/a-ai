@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc && node -e \"const fs = require('fs'); if (!fs.existsSync('dist/server.js')) { console.error('ERRO: dist/server.js não foi gerado!'); process.exit(1); } else { console.log('✓ Build concluído: dist/server.js existe'); }\"",
+    "build": "echo 'Iniciando build...' && tsc && echo 'TypeScript compilado. Verificando arquivos...' && node -e \"const fs = require('fs'); const path = require('path'); const distPath = path.join(__dirname, 'dist'); console.log('Diretório dist:', distPath); if (fs.existsSync(distPath)) { const files = fs.readdirSync(distPath); console.log('Arquivos em dist:', files); } if (!fs.existsSync('dist/server.js')) { console.error('ERRO: dist/server.js não foi gerado!'); process.exit(1); } else { console.log('✓ Build concluído: dist/server.js existe'); }\"",
     "start": "node dist/server.js",
     "seed:admin": "tsx src/scripts/seedAdmin.ts"
   },
@@ -18,15 +18,15 @@
     "jsonwebtoken": "^9.0.2",
     "axios": "^1.6.2",
     "uuid": "^9.0.1",
-    "typescript": "^5.3.3"
-  },
-  "devDependencies": {
+    "typescript": "^5.3.3",
     "@types/express": "^4.17.21",
     "@types/cors": "^2.8.17",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.10.5",
-    "@types/uuid": "^9.0.7",
+    "@types/uuid": "^9.0.7"
+  },
+  "devDependencies": {
     "tsx": "^4.7.0"
   }
 }
